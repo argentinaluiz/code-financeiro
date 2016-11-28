@@ -1,5 +1,4 @@
-//webpack de produção
-var webpack = require('webpack');
+var webpack = require('webpack')
 
 module.exports = {
     entry: {
