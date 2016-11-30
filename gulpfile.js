@@ -4,15 +4,15 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const webpackConfig = require('./webpack.config');
 const webpackDevConfig = require('./webpack.dev.config');
-//const mergeWebpack = require('webpack-merge');
+const mergeWebpack = require('webpack-merge');
 
-require('laravel-elixir-vue');
-require('laravel-elixir-webpack-official');
+//require('laravel-elixir-vue');
+//require('laravel-elixir-webpack-official');
 
-Elixir.webpack.config.module.loaders = [];
+//Elixir.webpack.config.module.loaders = [];
 
-Elixir.webpack.mergeConfig(webpackConfig);
-Elixir.webpack.mergeConfig(webpackDevConfig);
+//Elixir.webpack.mergeConfig(webpackConfig);
+//Elixir.webpack.mergeConfig(webpackDevConfig);
 /*
  |--------------------------------------------------------------------------
  | Elixir Asset Management
@@ -25,20 +25,20 @@ Elixir.webpack.mergeConfig(webpackDevConfig);
  */
 
 gulp.task('webpack-dev-server', () => {
-     let config = Elixir.webpack.config;
-    //let config = mergeWebpack(webpackConfig, webpackDevConfig);
+     //let config = Elixir.webpack.config;
+    let config = mergeWebpack(webpackConfig, webpackDevConfig);
 
-    // const inlineHot = [
-    //     'webpack/hot/dev-server',
-    //     'webpack-dev-server/client?http://192.168.10.10:8080'
-    // ];
+     const inlineHot = [
+         'webpack/hot/dev-server',
+         'webpack-dev-server/client?http://0.0.0.0:8080'
+     ];
 
-    // config.entry.admin = [config.entry.admin].concat(inlineHot);
+     config.entry.admin = [config.entry.admin].concat(inlineHot);
     // [admin.js, hot/dev, webpack-dev-client]
     new WebpackDevServer(webpack(config),{
         hot: true,
         proxy: {
-            '*': 'http://192.168.10.10:8000'
+            '*': 'http://0.0.0.0:8000'
         },
         watchOptions: {
             poll: true,
@@ -60,7 +60,7 @@ elixir(mix => {
 
     mix.browserSync({
         host: '0.0.0.0',
-        proxy: 'http://192.168.10.10:8080'
+        proxy: 'http://0.0.0.0:8080'
     });
        //.webpack('app.js');
 });
